@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment</title>
+
+  <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="plugins/icofont/icofont.min.css">
+
+</head>
+<body id="top" style="padding-top: 0px;">
+  <div th:replace="~{header :: headerFragment}"></div>
+
+  <section class="page-title book_app-bg">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="appointment-wrap mt-5 mt-lg-0 pl-lg-5">
+            <h2 class="mb-2 title-color" style="color: #b02674;">Book An Appointment</h2>
+            <p class="mb-4">Mollitia dicta commodi est recusandae iste, natus eum asperiores corrupti qui velit. Iste dolorum atque similique praesentium soluta.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section appointment">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 col-md-10" style="top:-206px;left:686px">
+          <div class="appointment-wrap mt-5 mt-lg-0">
+<!--            <h2 class="mb-2 title-color" style="color: #b02674;">Book Appointment</h2>-->
+<!--            <p class="mb-4">Mollitia dicta commodi est recusandae iste, natus eum asperiores corrupti qui velit. Iste dolorum atque similique praesentium soluta.</p>-->
+            
+            <!-- Appointment Form -->
+            <form th:action="@{/bookappointment}" method="post" class="appointment-form">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <select class="form-control" id="department" name="department" required>
+                      <option value="" disabled selected>Choose Department</option>
+                      <th:block th:each="department : ${departments}">
+                        <option th:value="${department.deptName}" th:text="${department.deptName}"></option>
+                      </th:block>
+                    </select>
+                  </div>
+                </div>
+
+				<div class="col-lg-6">
+				  <div class="form-group">
+				    
+					<select class="form-control" id="doctor" name="doctorUID" onchange="fetchAvailability()" required>
+					    <option value="" disabled selected>Select Doctor</option>
+					    <th:block th:each="doctor : ${doctors}">
+					        <option th:value="${doctor.doctorUID}" th:text="${'Dr. ' + doctor.firstName + ' ' + doctor.lastName}"></option>
+					    </th:block>
+					</select>
+				  
+				</div>
+				</div>
+
+               
+
+                <!-- Appointment Date Field with Date Range -->
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <input type="date" id="appointment_date" class="form-control" name="appointment_date" required>
+                  </div>
+                </div>
+
+                				<div class="col-lg-6">
+				  <div class="form-group">
+				    <select id="appointment_time" class="form-control" name="appointment_time" required>
+				      <option value="">Select Time</option>
+				      <!-- Time slots will be populated dynamically -->
+				    </select>
+				  </div>
+				</div>
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <input name="fullname" id="fullname" type="text" class="form-control" placeholder="Full Name">
+                  </div>
+                </div>
+				<div class="col-lg-6">
+				                  <div class="form-group">
+				                    <input type="text" class="form-control" id="contact_number" name="contact_number" placeholder="Phone Number" required>
+				                  </div>
+				                </div>								
+					<div class="col-lg-6">
+					<div class="form-group">
+						<input type="number" id="age" class="form-control" name="age" placeholder="Age" required>
+								 </div>
+								</div>
+					<div class="col-lg-6">
+						<div class="form-group">
+						<select class="form-control" id="gender" name="gender" required>
+						<option value="">Select Gender</option>
+						 <option value="Male">Male</option>
+						<option value="Female">Female</option>
+					    <option value="Other">Other</option>
+						</select>
+					</div>
+					</div>						                
+              </div>
+
+              <div class="form-group-2 mb-4">
+                <textarea id="symptoms" name="symptoms" class="form-control" rows="6" placeholder="Your Message"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-main btn-round-full">Make Appointment</button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- footer Start -->
+  <footer class="footer section gray-bg">
+  	<div class="container">
+  		<div class="row">
+  			<div class="col-lg-4 mr-auto col-sm-6">
+  				<div class="widget mb-5 mb-lg-0">
+  					<div class="logo mb-4">
+  						<img src="images/logo.png" alt="" class="img-fluid">
+  					</div>
+  					<p>Tempora dolorem voluptatum nam vero assumenda voluptate, facilis ad eos obcaecati tenetur veritatis eveniet distinctio possimus.</p>
+
+  					<ul class="list-inline footer-socials mt-4">
+  						<li class="list-inline-item"><a href="https://www.facebook.com/themefisher"><i class="icofont-facebook"></i></a></li>
+  						<li class="list-inline-item"><a href="https://twitter.com/themefisher"><i class="icofont-twitter"></i></a></li>
+  						<li class="list-inline-item"><a href="https://www.pinterest.com/themefisher/"><i class="icofont-whatsapp"></i></a></li>
+  						<li class="list-inline-item"><a href="https://www.pinterest.com/themefisher/"><i class="icofont-linkedin"></i></a></li>
+  						<li class="list-inline-item"><a href="https://www.pinterest.com/themefisher/"><i class="icofont-instagram"></i></a></li>
+
+  					</ul>
+  				</div>
+  			</div>
+
+  			<div class="col-lg-2 col-md-6 col-sm-6">
+  				<div class="widget mb-5 mb-lg-0">
+  					<h4 class="text-capitalize mb-3">Department</h4>
+  					<div class="divider mb-4"></div>
+
+  					<ul class="list-unstyled footer-menu lh-35">
+  						<li><a href="#">Surgery </a></li>
+  						<li><a href="#">Wome's Health</a></li>
+  						<li><a href="#">Radiology</a></li>
+  						<li><a href="#">Cardioc</a></li>
+  						<li><a href="#">Medicine</a></li>
+  					</ul>
+  				</div>
+  			</div>
+
+  			<div class="col-lg-2 col-md-6 col-sm-6">
+  				<div class="widget mb-5 mb-lg-0">
+  					<h4 class="text-capitalize mb-3">Support</h4>
+  					<div class="divider mb-4"></div>
+
+  					<ul class="list-unstyled footer-menu lh-35">
+  						<li><a href="#">Terms & Conditions</a></li>
+  						<li><a href="#">Privacy Policy</a></li>
+  						<li><a href="#">Company Support </a></li>
+  						<li><a href="#">FAQuestions</a></li>
+  						<li><a href="#">Company Licence</a></li>
+  					</ul>
+  				</div>
+  			</div>
+
+  			<div class="col-lg-3 col-md-6 col-sm-6">
+  				<div class="widget widget-contact mb-5 mb-lg-0">
+  					<h4 class="text-capitalize mb-3">Get in Touch</h4>
+  					<div class="divider mb-4"></div>
+
+  					<div class="footer-contact-block mb-4">
+  						<div class="icon d-flex align-items-center">
+  							<i class="icofont-email mr-3"></i>
+  							<span class="h6 mb-0">Support Available for 24/7</span>
+  						</div>
+  						<h4 class="mt-2"><a href="tel:+23-345-67890">Support@email.com</a></h4>
+  					</div>
+
+  					<div class="footer-contact-block">
+  						<div class="icon d-flex align-items-center">
+  							<i class="icofont-support mr-3"></i>
+  							<span class="h6 mb-0">Mon to Fri : 08:30 - 18:00</span>
+  						</div>
+  						<h4 class="mt-2"><a href="tel:+23-345-67890">+23-456-6588</a></h4>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+  		
+  		<div class="footer-btm py-4 mt-5">
+  			<div class="row align-items-center justify-content-between">
+  				<div class="col-lg-6">
+  					<div class="copyright">
+  						&copy; Copyright Reserved to <span class="text-color">Novena</span> by <a href="https://themefisher.com/" target="_blank">Themefisher</a>
+  					</div>
+  				</div>
+  				<div class="col-lg-6">
+  					<div class="subscribe-form text-lg-right mt-5 mt-lg-0">
+  						<form action="#" class="subscribe">
+  							<input type="text" class="form-control" placeholder="Your Email address">
+  							<a href="#" class="btn btn-main-2 btn-round-full">Subscribe</a>
+  						</form>
+  					</div>
+  				</div>
+  			</div>
+
+  			<div class="row">
+  				<div class="col-lg-4">
+  					<a class="backtop js-scroll-trigger" href="#top">
+  						<i class="icofont-long-arrow-up"></i>
+  					</a>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  </footer>
+  <script>
+  function fetchAvailability() {
+      const doctorUid = document.getElementById('doctor').value;
+
+      if (doctorUid) {
+          fetch(`/doctor-availability/${doctorUid}`)
+              .then(response => response.json())
+              .then(data => {
+                  populateDates(data);
+                  populateTimeSlots(data); // Pass the availability data here
+              })
+              .catch(error => console.error('Error fetching availability:', error));
+      }
+  }
+
+  function populateDates(availability) {
+      const appointmentDate = document.getElementById('appointment_date');
+
+      // Clear existing date restrictions
+      appointmentDate.removeAttribute('min');
+      appointmentDate.removeAttribute('max');
+
+      // Assuming the `availability` array contains objects with `availableDate` in the format yyyy-mm-dd
+      const availableDates = availability.map(item => item.availableDate);
+
+      if (availableDates.length > 0) {
+          // Sort the available dates (in case they are not sorted)
+          availableDates.sort();
+
+          // Set the min and max date to limit the date picker
+          appointmentDate.min = availableDates[0]; // Earliest available date
+          appointmentDate.max = availableDates[availableDates.length - 1]; // Latest available date
+      } else {
+          // If no available dates, we could disable the date input
+          appointmentDate.disabled = true;
+      }
+  }
+
+  function populateTimeSlots(availability) {
+      const timeSelect = document.getElementById('appointment_time'); // Time select element
+      timeSelect.innerHTML = ''; // Clear existing options
+
+      availability.forEach(slot => {
+          const startTime = slot.startTime; // Fetch start time from JSON
+          const endTime = slot.endTime;     // Fetch end time from JSON
+
+          if (startTime && endTime) {
+              let start = new Date(`1970-01-01T${startTime}`);
+              const end = new Date(`1970-01-01T${endTime}`);
+
+              while (start <= end) {
+                  const option = document.createElement('option');
+                  const formattedTime = start.toTimeString().substring(0, 5);
+                  option.value = formattedTime;
+                  option.text = formattedTime;
+                  timeSelect.appendChild(option);
+
+                  // Add 15 minutes to the start time
+                  start.setMinutes(start.getMinutes() + 15);
+              }
+          }
+      });
+  }
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

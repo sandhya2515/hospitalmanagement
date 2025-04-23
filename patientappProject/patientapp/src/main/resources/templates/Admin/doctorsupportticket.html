@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Tickets</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            padding: 20px 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e9e9e9;
+        }
+        .table-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 6px 12px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ddd;
+        }
+        #search {
+            padding: 6px;
+        }
+        .resolved-btn {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+        }
+        .in-progress-btn {
+            background-color: orange;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+        }
+        .resolved-btn:hover, .in-progress-btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+
+    <script>
+    let currentPage = 1;
+    let rowsPerPage = 10;
+    let table;
+
+    function displayTable() {
+        table = document.getElementById("ticketTable");
+        const tableBody = table.getElementsByTagName("tbody")[0];
+        let rows = tableBody.getElementsByTagName("tr");
+
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].style.display = "none";
+        }
+
+        let start = (currentPage - 1) * rowsPerPage;
+        let end = start + rowsPerPage;
+
+        for (let i = start; i < end && i < rows.length; i++) {
+            rows[i].style.display = "";
+        }
+
+        document.getElementById("pageNum").innerText = currentPage;
+    }
+
+        function searchTable() {
+            let input = document.getElementById("search").value.toLowerCase();
+            let rows = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < rows.length; i++) {
+                let row = rows[i];
+                let textContent = row.textContent.toLowerCase();
+                row.style.display = textContent.includes(input) ? "" : "none";
+            }
+        }
+        function sortTable(columnIndex) {
+            let rows = Array.from(table.rows).slice(1);
+            let sortedRows = rows.sort((a, b) => {
+                let aText = a.cells[columnIndex].innerText;
+                let bText = b.cells[columnIndex].innerText;
+                return aText.localeCompare(bText);
+            });
+
+            let tableBody = table.getElementsByTagName("tbody")[0];
+            tableBody.innerHTML = "";
+            sortedRows.forEach(row => tableBody.appendChild(row));
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayTable();
+            }
+        }
+
+        function nextPage() {
+            if ((currentPage * rowsPerPage) < table.rows.length - 1) {
+                currentPage++;
+                displayTable();
+            }
+        }
+
+        function updateRowsPerPage(e) {
+            rowsPerPage = parseInt(e.target.value);
+            displayTable();
+        }
+
+        window.onload = function() {
+            displayTable();
+        };
+    </script>
+</head>
+<body>
+
+    <h1>Doctors Support Tickets</h1>
+    <div class="container">
+        <div class="table-controls">
+            <label for="entries">Show 
+                <select id="entries" name="entries" onchange="updateRowsPerPage(event)">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                </select> entries
+            </label>
+            <label for="search">Search:
+                <input type="text" id="search" onkeyup="searchTable()">
+            </label>
+        </div>
+
+        <table id="ticketTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(1)">Doctor ID</th>
+                    <th onclick="sortTable(2)">Category</th>
+                    <th onclick="sortTable(3)">Subject</th>
+                    <th onclick="sortTable(4)">Description</th>
+                    <th onclick="sortTable(5)">status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Thymeleaf loop to display support ticket data -->
+                <tr th:each="supportticket : ${supporttickets}">
+                    <td th:text="${supportticket.doctorUid}"></td>
+                    <td th:text="${supportticket.category}"></td>
+                    <td th:text="${supportticket.subject}"></td>
+                    <td th:text="${supportticket.description}"></td>
+                    <td class="status" th:text="${supportticket.status}"></td>
+                    <td>
+                        <button th:onclick="|window.location.href='@{/updatestatusinprogress(id=${supportticket.id})}'|"
+                                class="in-progress-btn">In Progress
+                        </button>
+                        <button th:onclick="|window.location.href='@{/updatestatusissueresolved(id=${supportticket.id})}'|"
+                                class="resolved-btn">Issue Resolved
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

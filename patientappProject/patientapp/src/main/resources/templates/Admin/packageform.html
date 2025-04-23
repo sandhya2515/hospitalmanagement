@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head  >
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Department</title>
+    <style>
+        /* Your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;}
+            
+	      .alert {
+	            color: red;
+	            margin-bottom: 15px;
+	            }
+    </style>
+</head>
+<body>
+    <div class="container">
+       <div class="alert alert-danger" th:if="${errorMessage}">
+	            <p th:text="${errorMessage}"></p>
+	        </div>
+        <h2>Add Package</h2>
+        <form action="#" th:action="@{/Package/register}" th:object="${packaage}" method="post" enctype="multipart/form-data"  onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="packageName">Package Name:</label>
+                <input type="text" id="packageName" name="packageName" required>
+            </div>
+            <div class="form-group">
+                <label for="packageDesc">Package Description:</label>
+                <textarea id="packageDesc" name="packageDesc" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="packagePrice">Package Price:</label>
+                <input type="number" name="packagePrice" required>
+            </div>
+           <div class="form-group">
+                <label for="packageImage">Package Image:</label>
+                <input type="file" id="packageImage" name="packageImage" accept="image/*" required>
+            </div>
+            <button type="submit">Add Package</button>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            const packageName = document.getElementById("packageName").value.trim();
+            const packageDesc = document.getElementById("packageDesc").value.trim();
+            let packagePrice = document.getElementById("packagePrice").value; // Assuming there's an input field with ID 'packagePrice'
+            const packageImage = document.getElementById("packageImage").files.length;
+
+            let isValid = true;
+
+            // Validate Department Name (cannot be empty)
+            if (packageName === "") {
+                alert("package Name cannot be empty.");
+                isValid = false;
+            }
+            
+            if (packagePrice === "" || isNaN(packagePrice)) {
+                alert("Package Price must be a numeric value and cannot be empty.");
+                isValid = false;
+            }
+
+            // Validate Department Description (minimum 10 characters)
+            if (packageDesc.length < 10) {
+                alert("package Description must be at least 10 characters long.");
+                isValid = false;
+            }
+
+            // Validate Department Image (must be a file selected)
+            if (packageImage === 0) {
+                alert("Please upload a package image.");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+        
+     // Check if the error message exists and show an alert
+        let errorMessage = /*[[${errorMessage}]]*/ '';
+        if (errorMessage) {
+            alert(errorMessage);
+        }
+    </script>
+</body>
+</html>

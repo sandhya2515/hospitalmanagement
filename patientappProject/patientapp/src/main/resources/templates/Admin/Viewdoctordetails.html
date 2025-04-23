@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Doctor Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 630px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-section {
+            margin-bottom: 20px;
+            display: none; /* Hide sections initially */
+        }
+        .form-section.active {
+            display: block; /* Show active section */
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        label {
+            flex-basis: 30%;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="text"], input[type="email"], input[type="date"], input[type="file"], select, textarea {
+            flex-basis: 70%;
+            padding: 10px;
+            margin-left: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"], input[type="button"] {
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        input[type="submit"]:hover, input[type="button"]:hover {
+            background-color: #218838;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>viewDetails</h2>
+        
+       <!--- <form action="/doctor/registration" method="POST" enctype="multipart/form-data" id="registrationForm">-->
+ <form action="#" th:action="@{/viewdoctor/{id}(id=${doctor.Id})}" th:object="${doctor}" method="post" enctype="multipart/form-data"  onsubmit="return validateForm()">
+            
+            <!-- Personal Information Section -->
+            <div class="form-section active" id="section1">
+                <h3>Personal Information</h3>
+                <!--<div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" name="title" required placeholder="Title"/>
+                </div>-->
+				<div class="form-group">
+				    <label for="title">Title:</label>
+				    <select id="title" th:field="*{title}" required>
+				        <option value="" disabled selected>Select Title</option>
+				        <option value="Dr.">Dr.</option>
+				        <option value="Mr.">Mr.</option>
+				        <option value="Ms.">Ms.</option>
+				        <option value="Mrs.">Mrs.</option>
+				        <option value="Prof.">Prof.</option>
+				    </select>
+				</div>
+
+                <div class="form-group">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" th:field="*{firstName}" required placeholder="First Name"/>
+                </div>
+                <div class="form-group">
+                    <label for="middleName">Middle Name:</label>
+                    <input type="text" th:field="*{middleName}" placeholder="Middle Name"/>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" th:field="*{lastName}" required placeholder="Last Name"/>
+                </div>
+                <!--div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <input type="text" name="gender" required placeholder="Gender"/>
+                </div>-->
+				<div class="form-group">
+				    <label for="gender">Gender:</label>
+				    <select id="gender" th:field="*{gender}" required>
+				        <option value="" disabled selected>Select Gender</option>
+				        <option value="Male">Male</option>
+				        <option value="Female">Female</option>
+				        <option value="Other">Other</option>
+				    </select>
+				</div>
+
+                <div class="form-group">
+                    <label for="dateOfBirth">Date of Birth:</label>
+                    <input type="date" th:field="*{dateOfBirth}" required placeholder="Date of Birth"/>
+                </div>
+                <!--<div class="form-group">
+                    <label for="maritalStatus">Marital Status:</label>
+                    <input type="text" name="maritalStatus" required placeholder="Marital Status"/>
+                </div>-->
+				<div class="form-group">
+				    <label for="maritalStatus">Marital Status:</label>
+				    <select id="maritalStatus" th:field="*{maritalStatus}" required>
+				        <option value="" disabled selected>Select Marital Status</option>
+				        <option value="Single">Single</option>
+				        <option value="Married">Married</option>
+				        <option value="Divorced">Divorced</option>
+				        <option value="Widowed">Widowed</option>
+				    </select>
+				</div>
+
+                <div class="button-container">
+                    <button type="button" value="Next" style="color: rgb(255, 255, 255);background-color: #218838;" onclick="showNextSection(2)">Next</button>
+                </div>
+            </div>
+            
+            <!-- Current Information Section -->
+            <div class="form-section" id="section2">
+                <h3>Current Information</h3>
+               <!--- <div class="form-group">
+                    <label for="profilePhoto">Profile Photo:</label>
+                    <input type="file" th:field="*{profilePhoto}" required/>
+                </div>-->
+				
+
+				<div class="form-group">
+				   <label>Profile Photo:</label>
+				   <img th:src="@{/managedoctor/{Id}(Id=${doctor.Id})}" alt="Profile Photo" width="100">
+				</div>
+
+                <div class="form-group">
+                    <label for="primaryPhoneNumber">Primary Phone Number:</label>
+                    <input type="text" th:field="*{primaryPhoneNumber}" required placeholder="Primary Phone Number"/>
+                </div>
+                <div class="form-group">
+                    <label for="secondaryPhoneNumber">Secondary Phone Number:</label>
+                    <input type="text" th:field="*{secondaryPhoneNumber}" placeholder="Secondary Phone Number"/>
+                </div>
+                <div class="form-group">
+                    <label for="primaryEmail">Primary Email:</label>
+                    <input type="email" th:field="*{primaryEmail}" required placeholder="Primary Email"/>
+                </div>
+                <div class="form-group">
+                    <label for="secondaryEmail">Secondary Email:</label>
+                    <input type="email" th:field="*{secondaryEmail}" placeholder="Secondary Email"/>
+                </div>
+                <div class="button-container">
+                    <button type="button"  value="Back" onclick="goBack(1)" style="color: rgb(255, 255, 255);background-color: #218838;">Back</button>
+                    <button type="button" value="Next" onclick="showNextSection(3)" style="color: rgb(255, 255, 255);background-color: #218838;" >Next</button>
+                </div>
+            </div>
+
+            <!-- Address Section -->
+            <div class="form-section" id="section3">
+                <h3>Address</h3>
+                <div class="form-group">
+                    <label for="currentAddress">Current Address:</label>
+                    <input type="text" th:field="*{currentAddress}" required placeholder="Current Address"/>
+                </div>
+                <div class="form-group">
+                    <label for="currentLandmark">Current Landmark:</label>
+                    <input type="text" th:field="*{currentLandmark}" required placeholder="Current Landmark"/>
+                </div>
+                <div class="form-group">
+                    <label for="currentPostalCode">Current Postal Code:</label>
+                    <input type="text" th:field="*{currentPostalCode}" required placeholder="Current Postal Code"/>
+                </div>
+                <div class="form-group">
+                    <label for="currentCountry">Current Country:</label>
+                    <input type="text" th:field="*{currentCountry}" required placeholder="Current Country"/>
+                </div>
+                <div class="form-group">
+                    <label for="currentState">Current State:</label>
+                    <input type="text" th:field="*{currentState}" required placeholder="Current State"/>
+                </div>
+                <div class="form-group">
+                    <label for="currentCity">Current City:</label>
+                    <input type="text" th:field="*{currentCity}" required placeholder="Current City"/>
+                </div>
+                <div class="form-group">
+                    <label for="permanentAddress">Permanent Address:</label>
+                    <input type="text" th:field="*{permanentAddress}" required placeholder="Permanent Address"/>
+                </div>
+                <div class="form-group">
+                    <label for="permanentLandmark">Permanent Landmark:</label>
+                    <input type="text" th:field="*{permanentLandmark}" required placeholder="Permanent Landmark"/>
+                </div>
+                <div class="form-group">
+                    <label for="permanentPostalCode">Permanent Postal Code:</label>
+                    <input type="text" th:field="*{permanentPostalCode}" required placeholder="Permanent Postal Code"/>
+                </div>
+                <div class="form-group">
+                    <label for="permanentCountry">Permanent Country:</label>
+                    <input type="text" th:field="*{permanentCountry}" required placeholder="Permanent Country"/>
+                </div>
+                <div class="form-group">
+                    <label for="permanentState">Permanent State:</label>
+                    <input type="text" th:field="*{permanentState}" required placeholder="Permanent State"/>
+                </div>
+                <div class="form-group">
+                    <label for="permanentCity">Permanent City:</label>
+                    <input type="text" th:field="*{permanentCity}" required placeholder="Permanent City"/>
+                </div>
+                <div class="button-container">
+                    <button type="button" value="Back"  style="color: rgb(255, 255, 255);background-color: #218838;" onclick="goBack(2)">Back</button>
+                    <button type="button" value="Next"  style="color: rgb(255, 255, 255);background-color: #218838;" onclick="showNextSection(4)">Next</button>
+                </div>
+            </div>
+
+            <!-- Qualification Section -->
+            <div class="form-section" id="section4">
+                <h3>Qualification</h3>
+                <!--<div class="form-group">
+                    <label for="higherEducation">Higher Education:</label>
+                    <input type="text" name="higherEducation" required placeholder="Higher Education"/>
+                </div>-->
+				<div class="form-group">
+				    <label for="higherEducation">Higher Education:</label>
+				    <select id="higherEducation" th:field="*{higherEducation}" required>
+				        <option value="" disabled selected>Select Higher Education</option>
+				        <option value="MBBS">MBBS</option>
+				        <option value="MD">MD</option>
+				        <option value="DO">DO</option>
+				        <option value="PhD">PhD</option>
+				        <option value="MCh">MCh</option>
+				        <option value="DM">DM</option>
+				    </select>
+				</div>
+	
+                <!--<div class="form-group">
+                    <label for="specialization">Specialization:</label>
+                    <input type="text" name="specialization" required placeholder="Specialization"/>
+                </div>-->
+				<div class="form-group">
+				    <label for="specialization">Specialization:</label>
+				    <select id="specialization" th:field="*{specialization}" required>
+				        <option value="">Select Specialization</option>
+				        <option value="Cardiology">Cardiology</option>
+				        <option value="Neurology">Neurology</option>
+				        <option value="Pediatrics">Pediatrics</option>
+				        <option value="Dermatology">Dermatology</option>
+				        <option value="Orthopedics">Orthopedics</option>
+				        <option value="Radiology">Radiology</option>
+				        <option value="Psychiatry">Psychiatry</option>
+				        <option value="Oncology">Oncology</option>
+				        <!-- Add more specializations as needed -->
+				    </select>
+				</div>
+
+                <!--<div class="form-group">
+                    <label for="department">Department:</label>
+                    <input type="text" name="department" required placeholder="Department"/>
+                </div>-->
+				<div class="form-group">
+				    <label for="department">Department:</label>
+				    <select id="department" th:field="*{department}" required>
+				        <option value="">Select Department</option>
+				        <option value="Cardiology">Cardiology</option>
+				        <option value="Dermatology">Dermatology</option>
+				        <option value="Neurology">Neurology</option>
+				        <option value="Pediatrics">Pediatrics</option>
+				        <option value="Radiology">Radiology</option>
+				        <option value="Surgery">Surgery</option>
+				        <!-- Add more departments as needed -->
+				    </select>
+				</div>
+
+
+                <!--<div class="form-group">
+                    <label for="experience">Experience:</label>
+                    <input type="text" name="experience" required placeholder="Experience"/>
+                </div>-->
+				<div class="form-group">
+				    <label for="experience">Experience:</label>
+				    <select th:field="*{experience}" id="experience" required>
+				        <option value="" disabled selected>Select experience level</option>
+				        <option value="0-1">0-1 Years</option>
+				        <option value="2-3">2-3 Years</option>
+				        <option value="4-5">4-5 Years</option>
+				        <option value="6-10">6-10 Years</option>
+				        <option value="10+">10+ Years</option>
+				    </select>
+				</div>
+
+               <!---- <div class="form-group">
+                    <label for="certificates">Certificates:</label>
+                    <input type="file" th:field="*{certificates}" multiple accept=".pdf, .jpg, .png, .doc, .docx">
+                </div>-->
+				
+				<div class="form-group">
+					   <label>Certificates:</label>
+					   <div class="form-value">
+					      <a th:href="@{/doctor/certificate/{Id}(Id=${doctor.Id})}" target="_blank" multiple accept=".pdf, .jpg, .png, .doc, .docx">View Certificates</a>
+					   </div>
+					</div>
+
+                <div class="button-container">
+                    <button type="button" style="color: rgb(255, 255, 255);background-color: #218838;" value="Back" onclick="goBack(3)">Back</button>
+                    <input type="submit"  style="color: rgb(255, 255, 255);background-color: #218838;"value="Register"/>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function showNextSection(sectionNumber) {
+            // Hide all sections
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show the selected section
+            document.getElementById('section' + sectionNumber).classList.add('active');
+        }
+
+        function goBack(sectionNumber) {
+            // Call the same function to go back to the previous section
+            showNextSection(sectionNumber);
+        }
+    </script>
+    
+</body>
+</html>

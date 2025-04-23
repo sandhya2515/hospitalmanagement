@@ -1,0 +1,204 @@
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Prescription</title>
+    <style>
+        form {
+            max-width: 500px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Prescription</h1>
+    <form th:action="@{/appointments/save-details}" method="post">
+
+        <input type="hidden" name="id" th:value="${appointment.id}" />
+        
+        <label>Patient ID:</label>
+        <input type="text" th:value="${appointment.patientId}" readonly />
+        
+        <label>Patient Name:</label>
+        <input type="text" th:value="${appointment.patientName}" readonly />
+        
+        <label>Visit Time:</label>
+        <input type="text" th:value="${appointment.visitTime}" readonly />
+        
+        <label>Visit Date:</label>
+        <input type="text" th:value="${appointment.visitDate}" readonly />
+        
+        <label>Reason:</label>
+        <input type="text" th:value="${appointment.reason}" readonly />
+        
+        <label>Prescription:</label>
+        <textarea name="prescription"></textarea>
+        
+        <label>Diagnosis:</label>
+        <textarea name="diagnosis"></textarea>
+        
+        <label>Notes:</label>
+        <textarea name="notes"></textarea>
+        
+        <button type="submit" class="btn">Save Details</button>
+    </form>
+    
+     -->
+     
+     
+     
+     <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Prescription</title>
+    <style>
+        form {
+            max-width: 500px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Styles for the popup */
+        #successPopup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        #successPopup button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Prescription</h1>
+    <form id="prescriptionForm" th:action="@{/appointments/save-details}" method="post">
+
+        <input type="hidden" name="id" th:value="${appointment.id}" />
+        
+        
+        <label>Patient Name:</label>
+        <input type="text" th:value="${appointment.fullname}" readonly />
+        
+        <label>Visit Time:</label>
+        <input type="text" th:value="${appointment.appointment_time}" readonly />
+        
+        <label>Visit Date:</label>
+        <input type="text" th:value="${appointment.appointment_date}" readonly />
+        
+        <label>Reason:</label>
+        <input type="text" th:value="${appointment.reason}" readonly />
+        
+        <label>Prescription:</label>
+        <textarea name="prescription"></textarea>
+        
+        <label>Diagnosis:</label>
+        <textarea name="diagnosis"></textarea>
+        
+        <label>Notes:</label>
+        <textarea name="notes"></textarea>
+        
+        <button type="submit" class="btn">Save Details</button>
+    </form>
+    
+    <!-- Overlay -->
+    <div id="overlay"></div>
+    
+    <!-- Success Popup -->
+    <div id="successPopup">
+        <p>Prescription saved successfully.</p>
+        <button id="okButton">OK</button>
+    </div>
+    
+    <script>
+        document.getElementById('prescriptionForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(this);
+
+            try {
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Show the popup
+                    document.getElementById('overlay').style.display = 'block';
+                    document.getElementById('successPopup').style.display = 'block';
+                } else {
+                    alert('Failed to save details. Please try again.');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while saving details.');
+            }
+        });
+
+        document.getElementById('okButton').addEventListener('click', function() {
+            // Redirect to the appointments page after clicking OK
+            window.location.href = '/viewappointments'; // Update with the correct URL
+        });
+    </script>
+</body>              
+</html>
+     

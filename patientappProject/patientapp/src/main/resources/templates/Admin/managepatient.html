@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Data Table</title>
+
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin: 20px auto;
+            width: 90%;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto; /* Added to allow horizontal scrolling */
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .table-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            flex-wrap: wrap; /* Added for responsiveness */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: auto; /* Ensure table is auto-sized */
+        }
+
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+            white-space: nowrap; /* Prevent columns from wrapping */
+        }
+
+        th {
+            background-color: #0d0d0d; /* Background color */
+            color: white; /* Text color */
+            cursor: pointer;
+         }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 6px 12px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+
+        #search {
+            padding: 6px;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .table-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #search {
+                margin-top: 10px;
+            }
+        }
+    </style>
+
+    <script>
+        /* JavaScript Code */
+        let currentPage = 1;
+        let rowsPerPage = 5;
+        let table;
+
+        function displayTable() {
+            table = document.getElementById("patientTable");
+            const tableBody = table.getElementsByTagName("tbody")[0];
+            let rows = tableBody.getElementsByTagName("tr");
+
+            for (let i = 0; i < rows.length; i++) {
+                rows[i].style.display = "none";
+            }
+
+            let start = (currentPage - 1) * rowsPerPage;
+            let end = start + rowsPerPage;
+
+            for (let i = start; i < end && i < rows.length; i++) {
+                rows[i].style.display = "";
+            }
+
+            document.getElementById("pageNum").innerText = currentPage;
+        }
+
+        function searchTable() {
+            let input = document.getElementById("search").value.toLowerCase();
+            let rows = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < rows.length; i++) {
+                let row = rows[i];
+                let textContent = row.textContent.toLowerCase();
+                row.style.display = textContent.includes(input) ? "" : "none";
+            }
+        }
+
+        function sortTable(columnIndex, isNumeric = false) {
+            let rows = Array.from(table.rows).slice(1);
+            let sortedRows = rows.sort((a, b) => {
+                let aText = a.cells[columnIndex].innerText;
+                let bText = b.cells[columnIndex].innerText;
+                
+                if (isNumeric) {
+                    return parseFloat(aText) - parseFloat(bText); // Sort numerically if needed
+                }
+                return aText.localeCompare(bText);
+            });
+
+            let tableBody = table.getElementsByTagName("tbody")[0];
+            tableBody.innerHTML = "";
+            sortedRows.forEach(row => tableBody.appendChild(row));
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayTable();
+            }
+        }
+
+        function nextPage() {
+            if ((currentPage * rowsPerPage) < table.rows.length - 1) {
+                currentPage++;
+                displayTable();
+            }
+        }
+
+        function updateRowsPerPage(e) {
+            rowsPerPage = parseInt(e.target.value);
+            displayTable();
+        }
+
+        window.onload = function() {
+            displayTable();
+        };
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Patient Data Table</h2>
+        <div class="table-controls">
+            <label for="entries">Show 
+                <select id="entries" name="entries" onchange="updateRowsPerPage(event)">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select> entries
+            </label>
+            <label for="search">Search:
+                <input type="text" id="search" onkeyup="searchTable()">
+            </label>
+        </div>
+
+        <!-- Thymeleaf patient table -->
+        <table id="patientTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0, true)">ID</th>
+                    <th onclick="sortTable(1)">PU ID</th>
+                    <th onclick="sortTable(2)">First Name</th>
+                    <th onclick="sortTable(3)">Middle Name</th>
+                    <th onclick="sortTable(4)">Last Name</th>
+                    <th onclick="sortTable(5)">Gender</th>
+                    <th onclick="sortTable(6, true)">Age</th>
+                    <th onclick="sortTable(7)">Date of Birth</th>
+                    <th onclick="sortTable(8)">Contact</th>
+                    <th onclick="sortTable(9)">Alternate Contact</th>
+                    <th onclick="sortTable(10)">Email</th>
+                    <th onclick="sortTable(11)">Permanent Address</th>
+                    <th onclick="sortTable(12)">Temporary Address</th>
+                    <th onclick="sortTable(13)">City</th>
+                    <th onclick="sortTable(14)">Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Thymeleaf loop to display patient data -->
+                <tr th:each="patient : ${patients}">
+                    <td th:text="${patient.id}"></td>
+                    <td th:text="${patient.PuId}"></td>
+                    <td th:text="${patient.firstname}"></td>
+                    <td th:text="${patient.middlename}"></td>
+                    <td th:text="${patient.lastname}"></td>
+                    <td th:text="${patient.gender}"></td>
+                    <td th:text="${patient.age}"></td>
+                    <td th:text="${patient.dob}"></td>
+                    <td th:text="${patient.contact}"></td>
+                    <td th:text="${patient.alternateContact}"></td>
+                    <td th:text="${patient.email}"></td>
+                    <td th:text="${patient.permanentAddress}"></td>
+                    <td th:text="${patient.temporaryAddress}"></td>
+                    <td th:text="${patient.city}"></td>
+                    <td th:text="${patient.description}"></td>
+                    <td>
+                        <button th:onclick="'location.href=\'/viewHistory/' + ${patient.id} + '\''">View History</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <button onclick="prevPage()">Previous</button>
+            <span id="pageNum">1</span>
+            <button onclick="nextPage()">Next</button>
+        </div>
+    </div>
+
+</body>
+</html>

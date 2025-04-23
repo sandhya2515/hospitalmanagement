@@ -1,0 +1,27 @@
+*{
+  /* color:#223a66; */
+}
+body{
+  background-color: #ffffff;
+}
+
+.box-area{
+  width: 800px;
+}
+
+.date_num{
+  width: 16%;
+}
+.style_button_1{
+  width: 51%;
+}
+
+.from-style{
+  width: 70%;
+  height: 30px;
+}
+element {
+  background-image: url('./images/Login/Online_Appointment_img2.jpg');
+  position: relative;
+  right: -210px;
+}

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="description" content="Orbitor,business,company,agency,modern,bootstrap4,tech,software">
+  <meta name="author" content="themefisher.com">
+
+  <title>Novena - Health & Care Medical Template</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
+
+  <!-- Bootstrap.min CSS -->
+  <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.min.css">
+  <!-- Icon Font CSS -->
+  <link rel="stylesheet" href="/plugins/icofont/icofont.min.css">
+  <!-- Slick Slider CSS -->
+  <link rel="stylesheet" href="/plugins/slick-carousel/slick/slick.css">
+  <link rel="stylesheet" href="/plugins/slick-carousel/slick/slick-theme.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css">
+
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 300px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(173, 170, 170, 0.1);
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+    }
+
+    .modal-content button {
+      margin-top: 10px;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .cta-button {
+      background-color: transparent;
+      color: #ffffffe3;
+      padding: 15px 30px;
+      border: solid white;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      position: relative;
+      top: -144px;
+    }
+
+    .cta-button:hover {
+      background-color: #2c3e50;
+    }
+
+    .profile-icon {
+      width: 50px;
+      height: 50px;
+      background-color: #2c3e50;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body id="top" style="padding-top:0px;">
+
+  <div th:replace="~{header :: headerFragment}"></div>
+
+  <!-- Subscription Modal -->
+  <div id="subscriptionModal" class="modal">
+  			       <div class="modal-content">
+  			           <h2>Choose Your Subscription</h2>
+  			           <p>To book an appointment, please choose one of the following options:</p>
+  					<!--<a th:href="@{/bookappointment}"<button onclick="window.location.href='free-subscription.html'">Free Subscription (3 Free Appointments)</button></a>-->
+  					<a th:href="@{/bookappointment}">Free Subscription (3 Free Appointments)</a>
+
+  					<a  >Paid Subscription</a>
+  			           
+  			           <button onclick="closeModal()">Cancel</button>
+  			       </div>
+  			   </div>
+
+  <section class="page-title">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section doctor-single" style="position: relative; top:-230px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6">
+          <div class="doctor-img-block">
+            <img src="/images/team/1.jpg" alt="" class="img-fluid w-100">
+
+            <div class="info-block mt-4">
+              <h4 class="mb-0" th:text="${doctor.firstName}+' '+${doctor.lastName}">Alexandar James</h4>
+              <p th:text="${doctor.higherEducation}">Orthopedic Surgery</p>
+
+              <ul class="list-inline mt-4 doctor-social-links">
+                <li class="list-inline-item"><a href="#"><i class="icofont-facebook"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="icofont-twitter"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="icofont-skype"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="icofont-linkedin"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="icofont-pinterest"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-8 col-md-6">
+          <div class="doctor-details mt-4 mt-lg-0">
+            <h2 class="text-md">Introducing to myself</h2>
+            <div class="divider my-4"></div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+
+            <a id="book-appointment-btn" class="btn btn-main-2 btn-round-full mt-3">Make an Appointment<i class="icofont-simple-right ml-2"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer section gray-bg" style="position: relative; top: -220px;">
+    <div class="container">
+      <div class="row">
+        <!-- Footer content -->
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script for session-check logic -->
+  <script>
+    document.getElementById('book-appointment-btn').addEventListener('click', function () {
+      // Fetch the session status
+      fetch('/checkSession')
+        .then(response => response.json())
+        .then(data => {
+          if (data.loggedIn) {
+            // Show pop-up if the user is logged in
+            document.getElementById('subscriptionModal').style.display = 'flex';
+          } else {
+            // Redirect to the registration page if not logged in
+            window.location.href = '/registration';
+          }
+        })
+        .catch(error => {
+          // If any error occurs (e.g., session expired), redirect to register page
+          window.location.href = '/registration';
+        });
+    });
+
+    function closeModal() {
+      document.getElementById('subscriptionModal').style.display = 'none';
+    }
+    
+    function confirmLogout(event) {
+      event.preventDefault(); // Prevent the default link behavior
+
+      // Display a confirmation dialog
+      var confirmLogout = confirm("Are you sure you want to log out?");
+
+      if (confirmLogout) {
+        // If confirmed, proceed with logout
+        window.location.href = "/logout";
+      }
+    }
+
+    // Close modal if clicking outside of it
+    window.onclick = function(event) {
+      const modal = document.getElementById('subscriptionModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    };
+  </script>
+
+</body>
+</html>

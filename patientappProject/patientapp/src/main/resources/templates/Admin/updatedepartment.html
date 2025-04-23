@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Department</title>
+    <style>
+        /* Your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Update Department</h2>
+        <form th:action="@{/updatedepartment/{id}(id=${department.Id})}" th:object="${department}" th:method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <div>
+            <label for="deptName">Department Name:</label>
+            <input type="text" id="deptName" th:field="*{deptName}" >
+        </div>
+        <div>
+            <label for="deptDesc">Department Description:</label>
+            <input type="text" id="deptDesc" th:field="*{deptDesc}" >
+        </div>
+        <div>
+            <label for="deptImageFile">Department Image:</label>
+            <img th:src="@{/managedepartment/{id}(id=${department.Id})}"  alt="Department Image" width="200">
+            <input type="file" id="deptImage" th:field="*{deptImage}" accept="image/*" >
+        </div>
+        <div>
+            <button type="submit">Update</button>
+        </div>
+    </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            const deptName = document.getElementById("deptName").value.trim();
+            const deptDesc = document.getElementById("deptDesc").value.trim();
+
+            let isValid = true;
+
+            // Validate Department Name (cannot be empty)
+            if (deptName === "") {
+                alert("Department Name cannot be empty.");
+                isValid = false;
+            }
+
+            // Validate Department Description (minimum 10 characters)
+            if (deptDesc.length < 10) {
+                alert("Department Description must be at least 10 characters long.");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    </script>
+</body>
+</html>

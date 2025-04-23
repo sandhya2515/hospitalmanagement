@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Availability</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .form-container {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .availability-list {
+            flex: 1;
+            max-height: 433px;
+            overflow-y: auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .availability-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .availability-list th, .availability-list td {
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+
+        .availability-list th {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+
+        .availability-list td {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Set Availability</h1>
+            <!-- Form to set doctor availability -->
+            <form th:action="@{/availability}" method="post" th:object="${availabilityData}" id="availabilityForm">
+                <div class="form-group">
+                    <label for="availableDate">Available Date:</label>
+                    <input type="date" id="availableDate" th:field="*{availableDate}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="startTime">Start Time:</label>
+                    <input type="time" id="startTime" th:field="*{startTime}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="endTime">End Time:</label>
+                    <input type="time" id="endTime" th:field="*{endTime}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select id="status" th:field="*{status}" class="form-control">
+                        <option value="Available">Available</option>
+                        <option value="Unavailable">Unavailable</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" id="saveBtn">Save Availability</button>
+            </form>
+        </div>
+
+        <!-- Availability List -->
+        <div class="availability-list">
+            <h3>Availability List</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Render availability list -->
+                    <tr th:each="availability : ${availability}">
+                        <td th:text="${availability.availableDate}"></td>
+                        <td th:text="${availability.startTime}"></td>
+                        <td th:text="${availability.endTime}"></td>
+                        <td th:text="${availability.status}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Popup and page refresh script -->
+    <script>
+        $(document).ready(function() {
+            $('#availabilityForm').on('submit', function(event) {
+                event.preventDefault(); // Prevent the form from submitting the default way
+                
+                // Ajax request to submit form
+                $.ajax({
+                    type: $(this).attr('method'),
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        // Show success popup
+                        alert('Availability saved successfully');
+                        
+                        // Fade out effect and refresh page
+                        $('body').fadeOut(300, function() {
+                            location.reload();
+                        });
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        // Improved error handling
+                        alert('Failed to save availability. Please try again. Error: ' + errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

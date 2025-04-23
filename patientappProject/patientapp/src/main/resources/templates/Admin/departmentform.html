@@ -1,0 +1,139 @@
+	<!DOCTYPE html>
+	<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <meta charset="UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <title>Add Department</title>
+	
+	    <style>
+	        body {
+	            font-family: Arial, sans-serif;
+	            background-color: #f4f4f4;
+	            margin: 0;
+	            padding: 0;
+	        }
+	
+	        .container {
+	            width: 50%;
+	            margin: 50px auto;
+	            padding: 20px;
+	            background-color: #fff;
+	            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	        }
+	
+	        h2 {
+	            text-align: center;
+	            color: #333;
+	        }
+	
+	        .form-group {
+	            margin-bottom: 15px;
+	        }
+	
+	        label {
+	            display: block;
+	            margin-bottom: 5px;
+	            color: #333;
+	        }
+	
+	        input[type="text"],
+	        textarea {
+	            width: 100%;
+	            padding: 10px;
+	            border: 1px solid #ccc;
+	            border-radius: 5px;
+	        }
+	
+	        input[type="file"] {
+	            padding: 10px;
+	        }
+	
+	        button {
+	            display: block;
+	            width: 100%;
+	            padding: 10px;
+	            background-color: #007BFF;
+	            border: none;
+	            color: white;
+	            font-size: 16px;
+	            border-radius: 5px;
+	            cursor: pointer;
+	        }
+	
+	        button:hover {
+	            background-color: #0056b3;
+	        }
+	
+	        .error {
+	            color: red;
+	            font-size: 14px;
+	        }
+	
+	        .alert {
+	            color: red;
+	            margin-bottom: 15px;
+	        }
+	    </style>
+	</head>
+	<body>
+	    <div class="container">
+	        <!-- Error message display using Thymeleaf -->
+	        <div class="alert alert-danger" th:if="${errorMessage}">
+	            <p th:text="${errorMessage}"></p>
+	        </div>
+	
+	        <h2>Add Department</h2>
+	        <form action="#" th:action="@{/department/register}" th:object="${department}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+	            <div class="form-group">
+	                <label for="deptName">Department Name:</label>
+	                <input type="text" id="deptName" name="deptName" required>
+	            </div>
+	            <div class="form-group">
+	                <label for="deptDesc">Department Description:</label>
+	                <textarea id="deptDesc" name="deptDesc" required></textarea>
+	            </div>
+	            <div class="form-group">
+	                <label for="deptImage">Department Image:</label>
+	                <input type="file" id="deptImage" name="deptImage" accept="image/*" required>
+	            </div>
+	            <button type="submit">Add Department</button>
+	        </form>
+	    </div>
+	
+	    <script>
+	        function validateForm() {
+	            const deptName = document.getElementById("deptName").value.trim();
+	            const deptDesc = document.getElementById("deptDesc").value.trim();
+	            const deptImage = document.getElementById("deptImage").files.length;
+	
+	            let isValid = true;
+	
+	            // Validate Department Name (cannot be empty)
+	            if (deptName === "") {
+	                alert("Department Name cannot be empty.");
+	                isValid = false;
+	            }
+	
+	            // Validate Department Description (minimum 10 characters)
+	            if (deptDesc.length < 10) {
+	                alert("Department Description must be at least 10 characters long.");
+	                isValid = false;
+	            }
+	
+	            // Validate Department Image (must be a file selected)
+	            if (deptImage === 0) {
+	                alert("Please upload a department image.");
+	                isValid = false;
+	            }
+	
+	            return isValid;
+	        }
+	
+	        // Check if the error message exists and show an alert
+	        let errorMessage = /*[[${errorMessage}]]*/ '';
+	        if (errorMessage) {
+	            alert(errorMessage);
+	        }
+	    </script>
+	</body>
+	</html>

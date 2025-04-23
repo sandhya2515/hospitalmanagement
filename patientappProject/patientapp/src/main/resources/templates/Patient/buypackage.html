@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Buy Package</title>
+	<!-- bootstrap.min css -->
+	  <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+	  <!-- Icon Font Css -->
+	  <link rel="stylesheet" href="plugins/icofont/icofont.min.css">
+	  <!-- Slick Slider  CSS -->
+	  <link rel="stylesheet" href="plugins/slick-carousel/slick/slick.css">
+	  <link rel="stylesheet" href="plugins/slick-carousel/slick/slick-theme.css">
+	<link rel="stylesheet" href="css/login.css">
+	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+	
+</head>
+<body id="top"  style="padding-top: 0px;">
+	<div th:replace="~{header :: headerFragment}"></div>
+	<section class="page-title department-bg">
+	  <div class="overlay"></div>
+	  <div class="container">
+	    <div class="row">
+	      <div class="col-md-12">
+	        <div class="block text-center">
+	          <span class="text-white">All Department</span>
+	          <h1 class="text-capitalize mb-5 text-lg" style="color: #b02674;">Buy Package</h1>
+
+	          <!-- <ul class="list-inline breadcumb-nav">
+	            <li class="list-inline-item"><a href="index.html" class="text-white">Home</a></li>
+	            <li class="list-inline-item"><span class="text-white">/</span></li>
+	            <li class="list-inline-item"><a href="#" class="text-white-50">All Department</a></li>
+	          </ul> -->
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</section>
+	<section class="section service-2">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 col-md-6 col-sm-6" th:each="pkg : ${packages}" >
+					<div class="service-block mb-5 p-2 shadow" >
+						<img src="images/about/Doctors Of.jpeg" alt="" class="img-fluid">
+						<div class="content">
+							<h4 class="mt-4 mb-2 title-color" style="color: #b02674;"th:text="${pkg.packageName}">Child care</h4>
+							<p class="mb-4"  th:text="${pkg.packageDesc}">Details</p>
+							<center><p class="mb-4"  th:text="'₹'+${pkg.packagePrice}">Price</p></center>
+						</div>
+						<center><button type="submit" class="btn btn-danger align-items-center"><b>Buy Now</b></button></center>
+					</div>
+				</div>			
+			</div>
+		</div>
+	</section>
+	<!-- footer Start -->
+	 <footer class="footer section gray-bg">
+	 	<div class="container">
+	 		<div class="row">
+	 			<div class="col-lg-4 mr-auto col-sm-6">
+	 				<div class="widget mb-5 mb-lg-0">
+	 					<div class="logo mb-4">
+	 						<img src="images/logo.png" alt="" class="img-fluid">
+	 					</div>
+	 					<p>Tempora dolorem voluptatum nam vero assumenda voluptate, facilis ad eos obcaecati tenetur veritatis eveniet distinctio possimus.</p>
+
+	 					<ul class="list-inline footer-socials mt-4">
+	 						<li class="list-inline-item"><a href="https://www.facebook.com/themefisher"><i class="icofont-facebook"></i></a></li>
+	 						<li class="list-inline-item"><a href="https://twitter.com/themefisher"><i class="icofont-twitter"></i></a></li>
+	 						<li class="list-inline-item"><a href="https://www.pinterest.com/themefisher/"><i class="icofont-whatsapp"></i></a></li>
+	 						<li class="list-inline-item"><a href="https://www.pinterest.com/themefisher/"><i class="icofont-linkedin"></i></a></li>
+	 						<li class="list-inline-item"><a href="https://www.pinterest.com/themefisher/"><i class="icofont-instagram"></i></a></li>
+
+	 					</ul>
+	 				</div>
+	 			</div>
+
+	 			<div class="col-lg-2 col-md-6 col-sm-6">
+	 				<div class="widget mb-5 mb-lg-0">
+	 					<h4 class="text-capitalize mb-3">Department</h4>
+	 					<div class="divider mb-4"></div>
+
+	 					<ul class="list-unstyled footer-menu lh-35">
+	 						<li><a href="#">Surgery </a></li>
+	 						<li><a href="#">Wome's Health</a></li>
+	 						<li><a href="#">Radiology</a></li>
+	 						<li><a href="#">Cardioc</a></li>
+	 						<li><a href="#">Medicine</a></li>
+	 					</ul>
+	 				</div>
+	 			</div>
+
+	 			<div class="col-lg-2 col-md-6 col-sm-6">
+	 				<div class="widget mb-5 mb-lg-0">
+	 					<h4 class="text-capitalize mb-3">Support</h4>
+	 					<div class="divider mb-4"></div>
+
+	 					<ul class="list-unstyled footer-menu lh-35">
+	 						<li><a href="#">Terms & Conditions</a></li>
+	 						<li><a href="#">Privacy Policy</a></li>
+	 						<li><a href="#">Company Support </a></li>
+	 						<li><a href="#">FAQuestions</a></li>
+	 						<li><a href="#">Company Licence</a></li>
+	 					</ul>
+	 				</div>
+	 			</div>
+
+	 			<div class="col-lg-3 col-md-6 col-sm-6">
+	 				<div class="widget widget-contact mb-5 mb-lg-0">
+	 					<h4 class="text-capitalize mb-3">Get in Touch</h4>
+	 					<div class="divider mb-4"></div>
+
+	 					<div class="footer-contact-block mb-4">
+	 						<div class="icon d-flex align-items-center">
+	 							<i class="icofont-email mr-3"></i>
+	 							<span class="h6 mb-0">Support Available for 24/7</span>
+	 						</div>
+	 						<h4 class="mt-2"><a href="tel:+23-345-67890">Support@email.com</a></h4>
+	 					</div>
+
+	 					<div class="footer-contact-block">
+	 						<div class="icon d-flex align-items-center">
+	 							<i class="icofont-support mr-3"></i>
+	 							<span class="h6 mb-0">Mon to Fri : 08:30 - 18:00</span>
+	 						</div>
+	 						<h4 class="mt-2"><a href="tel:+23-345-67890">+23-456-6588</a></h4>
+	 					</div>
+	 				</div>
+	 			</div>
+	 		</div>
+	 		
+	 		<div class="footer-btm py-4 mt-5">
+	 			<div class="row align-items-center justify-content-between">
+	 				<div class="col-lg-6">
+	 					<div class="copyright">
+	 						&copy; Copyright Reserved to <span class="text-color">Novena</span> by <a href="https://themefisher.com/" target="_blank">Themefisher</a>
+	 					</div>
+	 				</div>
+	 				<div class="col-lg-6">
+	 					<div class="subscribe-form text-lg-right mt-5 mt-lg-0">
+	 						<form action="#" class="subscribe">
+	 							<input type="text" class="form-control" placeholder="Your Email address">
+	 							<a href="#" class="btn btn-main-2 btn-round-full">Subscribe</a>
+	 						</form>
+	 					</div>
+	 				</div>
+	 			</div>
+
+	 			<div class="row">
+	 				<div class="col-lg-4">
+	 					<a class="backtop js-scroll-trigger" href="#top">
+	 						<i class="icofont-long-arrow-up"></i>
+	 					</a>
+	 				</div>
+	 			</div>
+	 		</div>
+	 	</div>
+	 </footer>
+	
+	
+</body>
+</html>

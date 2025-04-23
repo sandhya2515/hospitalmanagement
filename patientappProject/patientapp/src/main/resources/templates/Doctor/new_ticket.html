@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Support Ticket</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background-image: linear-gradient(rgb(228, 239, 243), rgb(228, 55, 64)); padding-top:0px">
+    <!-- <div th:replace="~{header :: headerFragment}"></div> -->
+
+    <div class="container min-vh-100 d-flex justify-content-center align-items-center"> 
+        <div class="row rounded-5 shadow p-4 bg-white box-area w-75">
+            <h1 class="text-center mb-4">Create Support Ticket</h1>            
+            <div th:if="${message}" th:text="${message}" th:classappend=" 'alert ' + ${alertClass}" role="alert" style="display: block;"></div>
+            
+            <form th:action="@{/supportticket}" th:object="${supportTicket}" method="post" class="col-md-10 offset-md-1">
+                <!-- Category Selection -->
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category:</label>
+                    <select id="category" th:field="*{category}" class="form-select" required>
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="Appointment Issues">Appointment Issues</option>
+                        <option value="Prescription Problems">Prescription Problems</option>
+                        <option value="Doctor Availability">Doctor Availability</option>
+                        <option value="Technical Support">Technical Support</option>
+                        <option value="General Inquiry">General Inquiry</option>
+                    </select>
+                </div>
+                
+                <!-- Subject Input -->
+                <div class="mb-3">
+                    <label for="subject" class="form-label">Subject:</label>
+                    <input type="text" id="subject" th:field="*{subject}" class="form-control" placeholder="Enter the subject" required />
+                </div>
+                
+                <!-- Description Textarea -->
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description:</label>
+                    <textarea class="form-control" id="description" th:field="*{description}" rows="4" placeholder="Describe the issue" required></textarea>
+                </div>
+                
+                <!-- Hidden Input for Status and Created At -->
+                <input type="hidden" th:field="*{status}" value="Pending" />
+                <input type="hidden" th:field="*{createdAt}" th:value="${#dates.format(today, 'yyyy-MM-dd HH:mm:ss')}" />
+
+                <!-- Submit Button -->
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-danger">Submit Ticket</button>
+                </div>
+                
+                <!-- Back to Ticket List Link -->
+                <div class="mt-3 text-center">
+                    <a class="back-link" th:href="@{/supportticket/list}">Back to Ticket List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer section gray-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mr-auto col-sm-6">
+                    <div class="widget mb-5 mb-lg-0">
+                        <div class="logo mb-4">
+                            <img src="images/logo.png" alt="" class="img-fluid">
+                        </div>
+                        <p>Contact us for medical appointments and care.</p>
+                        <ul class="list-inline footer-socials mt-4">
+                            <li class="list-inline-item"><a href="#"><i class="icofont-facebook"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="icofont-twitter"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="icofont-whatsapp"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="icofont-linkedin"></i></a></li>
+                            <li class="list-inline-item"><a href="#"><i class="icofont-instagram"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Additional Footer Sections Omitted for Brevity -->
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

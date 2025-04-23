@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Appointment details page for the medical platform">
+  <meta name="author" content="themefisher.com">
+  <title>Appointment Details</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+  <!-- Icon Font CSS -->
+  <link rel="stylesheet" href="plugins/icofont/icofont.min.css">
+  <!-- Slick Slider CSS -->
+  <link rel="stylesheet" href="plugins/slick-carousel/slick/slick.css">
+  <link rel="stylesheet" href="plugins/slick-carousel/slick/slick-theme.css">
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .dropdownappointment {
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+    .hidden {
+      display: none;
+    }
+
+  </style>
+</head>
+
+<body id="top" style="padding-top: 0px;">
+  <div th:replace="~{header :: headerFragment}"></div>
+
+  <!-- Page Title Section -->
+  <section class="page-title img-style">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <span style="color: #b02674;">Appointment Details</span>
+            <h1 class="text-capitalize mb-5 text-lg" style="color:#223a66;">Appointment Details</h1>
+            <ul class="list-inline breadcumb-nav">
+              <li class="list-inline-item"><a href="index.html" style="color: #b02674;">Home</a></li>
+              <li class="list-inline-item"><span style="color: #b02674;">/</span></li>
+              <li class="list-inline-item"><a href="#" class="text-50" style="color: #b02674;">Appointment Details</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Appointment Section -->
+  <section class="section about-page">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <h2 class="title-color" style="color: #b02674;">Select Date to View Details</h2>
+        </div>
+        <div class="col-lg-8">
+          <select id="appointmentDate" class="dropdownappointment">
+            <option value="" disabled selected>Select a Date</option>
+            <!-- Placeholder for Thymeleaf appointments -->
+            <option th:each="appointment : ${appointments}"
+                    th:value="${appointment.id}"
+                    th:text="${appointment.appointment_date}"></option>
+          </select>
+
+          <!-- Appointment Details Card -->
+          <div class="sidebar-widget schedule-widget mb-3 hidden" id="appointmentDetails">
+            <h2 id="appointmentDateDisplay"></h2>
+            <h5 class="mb-4">Patient Details</h5>
+            <ul class="list-unstyled">
+              <li class="d-flex justify-content-between align-items-center">
+                <span>Doctor:</span>
+                <span id="doctorUid"></span>
+              </li>
+              <li class="d-flex justify-content-between align-items-center">
+                <span>Department:</span>
+                <span id="specialty"></span>
+              </li>
+			  <li class="d-flex justify-content-between align-items-center">
+			                  <span>Patient Name:</span>
+			                  <span id="fullname"></span>
+			                </li>
+			  <li class="d-flex justify-content-between align-items-center">
+	                 <span>Symptoms</span>
+					 <span id="symptoms"></span>
+		          </li>			
+							
+              <li class="d-flex justify-content-between align-items-center">
+                <span>Status:</span>
+                <span id="status"></span>
+              </li>
+            </ul>
+            <div class="sidebar-contatct-info mt-4">
+              <p class="mb-0">Need Urgent Help?</p>
+			  <button id="cancelButton" class=" btn-main btn-round-full hidden">Cancel Appointment</button>
+			  </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Start -->
+  <footer class="footer section gray-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mr-auto col-sm-6">
+          <div class="widget mb-5 mb-lg-0">
+            <div class="logo mb-4">
+              <img src="images/logo.png" alt="" class="img-fluid">
+            </div>
+            <p>Contact us for medical appointments and care.</p>
+            <ul class="list-inline footer-socials mt-4">
+              <li class="list-inline-item"><a href="https://www.facebook.com/themefisher"><i class="icofont-facebook"></i></a></li>
+              <li class="list-inline-item"><a href="https://twitter.com/themefisher"><i class="icofont-twitter"></i></a></li>
+              <li class="list-inline-item"><a href="https://www.pinterest.com/themefisher/"><i class="icofont-whatsapp"></i></a></li>
+              <li class="list-inline-item"><a href="https://www.pinterest.com/themefisher/"><i class="icofont-linkedin"></i></a></li>
+              <li class="list-inline-item"><a href="https://www.pinterest.com/themefisher/"><i class="icofont-instagram"></i></a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-6 col-sm-6">
+          <div class="widget mb-5 mb-lg-0">
+            <h4 class="text-capitalize mb-3">Departments</h4>
+            <div class="divider mb-4"></div>
+            <ul class="list-unstyled footer-menu lh-35">
+              <li><a href="#">Surgery</a></li>
+              <li><a href="#">Women's Health</a></li>
+              <li><a href="#">Radiology</a></li>
+              <li><a href="#">Cardiology</a></li>
+              <li><a href="#">Medicine</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-6 col-sm-6">
+          <div class="widget mb-5 mb-lg-0">
+            <h4 class="text-capitalize mb-3">Support</h4>
+            <div class="divider mb-4"></div>
+            <ul class="list-unstyled footer-menu lh-35">
+              <li><a href="#">Terms & Conditions</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Company Support</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Company License</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="widget widget-contact mb-5 mb-lg-0">
+            <h4 class="text-capitalize mb-3">Get in Touch</h4>
+            <div class="divider mb-4"></div>
+            <div class="footer-contact-block mb-4">
+              <div class="icon d-flex align-items-center">
+                <i class="icofont-email mr-3"></i>
+                <span class="h6 mb-0">Support Available 24/7</span>
+              </div>
+              <h4 class="mt-2"><a href="mailto:support@email.com">support@email.com</a></h4>
+            </div>
+            <div class="footer-contact-block">
+              <div class="icon d-flex align-items-center">
+                <i class="icofont-support mr-3"></i>
+                <span class="h6 mb-0">Mon to Fri: 08:30 - 18:00</span>
+              </div>
+              <h4 class="mt-2"><a href="tel:+23-345-67890">+23-456-6588</a></h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-btm py-4 mt-5">
+        <div class="row align-items-center justify-content-between">
+          <div class="col-lg-6">
+            <div class="copyright">
+              &copy; Copyright Reserved to <span class="text-color">Novena</span> by <a href="https://themefisher.com/" target="_blank">Themefisher</a>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="subscribe-form text-lg-right mt-5 mt-lg-0">
+              <form action="#" class="subscribe">
+                <input type="text" class="form-control" placeholder="Your Email address">
+                <a href="#" class="btn btn-main-2 btn-round-full">Subscribe</a>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4">
+            <a class="backtop scroll-top-to" href="#"><i class="icofont-long-arrow-up"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Essential Scripts -->
+  <script src="plugins/jquery/jquery.js"></script>
+  <script src="plugins/bootstrap/js/popper.js"></script>
+  <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+  <script src="plugins/slick-carousel/slick/slick.min.js"></script>
+  <script src="plugins/shuffle/shuffle.min.js"></script>
+  <script src="js/script.js"></script>
+
+  <!-- Dynamic Appointment Details Script -->
+ 
+  
+ <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const appointmentDate = document.getElementById('appointmentDate');
+      const appointmentDetails = document.getElementById('appointmentDetails');
+      const doctorUid = document.getElementById('doctorUid');
+      const specialty = document.getElementById('specialty');
+      const status = document.getElementById('status');
+      const cancelButton = document.getElementById('cancelButton');
+
+      appointmentDate.addEventListener('change', async function() {
+        const id = this.value;
+
+        try {
+          const response = await fetch(`/viewappointment/${id}`);
+          const appointment = await response.json();
+
+          document.getElementById('appointmentDateDisplay').textContent = appointment.appointment_date;
+          doctorUid.textContent = appointment.doctor;
+          specialty.textContent = appointment.department;
+		  fullname.textContent = appointment.fullname;
+		  symptoms.textContent = appointment.symptoms;
+
+          status.textContent = appointment.status;
+		
+          if (appointment.status === 'Upcoming') {
+            cancelButton.classList.remove('hidden');
+          } else {
+            cancelButton.classList.add('hidden');
+          }
+
+          appointmentDetails.classList.remove('hidden');
+        } catch (error) {
+          console.error('Error fetching appointment:', error);
+        }
+      });
+
+      cancelButton.addEventListener('click', async function() {
+        const id = appointmentDate.value;
+        try {
+          await fetch(`/cancelviewappointment/${id}`, { method: 'POST' });
+          status.textContent = 'Cancelled';
+		  alert("Are you sure ,Your appointment on  has been cancelled.");
+          cancelButton.classList.add('hidden');
+        } catch (error) {
+          console.error('Error cancelling appointment:', error);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

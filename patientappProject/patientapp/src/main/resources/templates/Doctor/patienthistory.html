@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Patient History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .card-body {
+            display: flex;
+            flex-direction: column;
+        }
+        .card-body div {
+            margin-bottom: 10px;
+        }
+        .card-body span {
+            font-weight: bold;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Patient History</h1>
+    <div class="container">
+        <div th:each="appointment : ${patientHistory}" class="card"> 		
+
+            <div class="card-header">
+                Appointment ID: <span th:text="${appointment.id}"></span>
+            </div>
+            <div class="card-body">
+                <div><span>Patient Name:</span> <span th:text="${appointment.fullname}"></span></div>
+                <div><span>Visit Date:</span> <span th:text="${appointment.appointment_date}"></span></div>
+                <div><span>Visit Time:</span> <span th:text="${appointment.appointment_time}"></span></div>
+                <div><span>Reason:</span> <span th:text="${appointment.symptoms}"></span></div>
+                <div><span>Diagnosis:</span> <span th:text="${appointment.symptoms}"></span></div>
+                <div><span>Prescription:</span> <span th:text="${appointment.prescription}"></span></div>
+                <div><span>Notes:</span> <span th:text="${appointment.diagnosis}"></span></div>
+            </div>
+        </div>
+    </div>
+    <a href="/viewappointments" class="back-link">Back to Appointments</a>
+</body>
+</html>
